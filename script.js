@@ -23,27 +23,22 @@ function loadCarousel(){
             clearTimeout(chrono);
             const cursors = carousel.querySelectorAll('div > a');
             const index = [].indexOf.call(cursors,this);
-            carouselPlay(index);
+            play(index);
         });
         areaButton.appendChild(cursor);
     }
-
     carousel.appendChild(areaButton);
-    chrono = setTimeout( 'carouselPlay();' , 3000);
+    chrono = setTimeout( 'play();' , 3000);
 }
 
-function carouselPlay(index = -1){
-    if(index === -1){
-        autoPlay();
-    }
-    else{
-        manualPlay(index);
-    }
-}
 
-function manualPlay(index){
+function play(index = -1){
     const currentPicture = carousel.querySelector('ul > li.active');
     const currentIndex = [].indexOf.call(pictures,currentPicture);
+
+    if(index===-1){
+        index = ( currentIndex === (pictures.length-1))? 0 : currentIndex +1 ;
+    }
 
     if(index !== currentIndex){
         currentPicture.classList.remove('active');
@@ -51,21 +46,6 @@ function manualPlay(index){
         const cursors = carousel.querySelectorAll('div > a');
         cursors[currentIndex].classList.remove('active');
         cursors[index].classList.add('active');
-    }
-    chrono = setTimeout( 'carouselPlay();' , 3000);
-}
-function autoPlay(){
-    const currentPicture = carousel.querySelector('ul > li.active');
-    const currentIndex = [].indexOf.call(pictures,currentPicture);
-
-    const index = ( currentIndex === (pictures.length-1))? 0 : currentIndex +1 ;
-
-    if(index !== currentIndex){
-        currentPicture.classList.remove('active');
-        pictures[index].classList.add('active')
-        const cursors = carousel.querySelectorAll('div > a');
-        cursors[currentIndex].classList.remove('active');
-        cursors[index].classList.add('active');
-        chrono = setTimeout( 'carouselPlay();' , 3000);
+        chrono = setTimeout( 'play();' , 3000);
     }
 }
